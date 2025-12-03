@@ -1,7 +1,5 @@
 # devops-teamcity-kotlin-steps
 
-# devops-teamcity-kotlin-steps
-
 [![Build Status](https://img.shields.io/badge/build-passing-brightgreen)](https://teamcity.example.com)
 [![Kotlin](https://img.shields.io/badge/Kotlin-1.9-blue.svg?logo=kotlin)](https://kotlinlang.org)
 [![TeamCity](https://img.shields.io/badge/TeamCity-2023.11+-black.svg?logo=teamcity)](https://www.jetbrains.com/teamcity/)
