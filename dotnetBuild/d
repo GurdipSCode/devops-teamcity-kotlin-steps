@@ -1,1 +1,15 @@
+import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.dotnetBuild
 
+object Build : BuildType({
+    name = "Build"
+
+    steps {
+        dotnetBuild {
+            name = "Dotnet Build"
+            projects = "MyProject.sln"
+            configuration = "Release"
+            args = "--no-restore"
+        }
+    }
+})
