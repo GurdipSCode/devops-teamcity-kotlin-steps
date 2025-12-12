@@ -1,40 +1,101 @@
-# .coderabbit.yaml
+# CodeRabbit Configuration for Kotlin Projects
+# Documentation: https://docs.coderabbit.ai/guides/configure-coderabbit
+
 language: "en-US"
 
+early_access: false
+
 reviews:
-  # Enable or disable reviews
-  enabled: true
-  # Review profile: chill, default, strict, or assertive
-  profile: "default"
-  # Request changes workflow
   request_changes_workflow: false
-  # High-level summary in PR description
   high_level_summary: true
-  # Add walkthrough comment
   poem: false
-  # Review status comment
   review_status: true
-  # Collapse walkthrough below this many files
-  collapse_walkthrough: 10
-  # Auto-review on push
+  collapse_walkthrough: false
+
+  path_instructions:
+    - path: "**/*.kt"
+      instructions: |
+        Review Kotlin code for:
+        - Idiomatic Kotlin patterns (use of scope functions, extension functions)
+        - Null safety (avoid unnecessary !! operators, prefer safe calls)
+        - Coroutine best practices (proper scope usage, structured concurrency)
+        - Data class usage where appropriate
+        - Immutability (prefer val over var, immutable collections)
+        - Proper use of sealed classes and enums
+        - Kotlin naming conventions (camelCase for functions/properties)
+    - path: "**/*.kts"
+      instructions: "Review Kotlin script files for correctness and Gradle DSL best practices."
+    - path: "**/build.gradle.kts"
+      instructions: "Review Gradle Kotlin DSL for dependency management, proper plugin usage, and build configuration."
+    - path: "**/settings.gradle.kts"
+      instructions: "Review settings for proper module configuration and repository settings."
+    - path: "**/src/main/kotlin/**"
+      instructions: "Review production code for clean architecture, SOLID principles, and proper error handling."
+    - path: "**/src/test/kotlin/**"
+      instructions: |
+        Review test code for:
+        - Proper test naming conventions
+        - Adequate test coverage and edge cases
+        - Use of appropriate testing frameworks (JUnit 5, Kotest, MockK)
+        - Test isolation and determinism
+    - path: "**/src/androidTest/**"
+      instructions: "Review Android instrumented tests for proper Espresso/Compose testing patterns."
+    - path: "**/*.md"
+      instructions: "Review documentation for clarity, grammar, and completeness."
+
   auto_review:
     enabled: true
     drafts: false
+    base_branches:
+      - main
+      - develop
+      - master
+
+  tools:
+    shellcheck:
+      enabled: true
+    markdownlint:
+      enabled: true
+    github-checks:
+      enabled: true
+    languagetool:
+      enabled: true
+      enabled_only: false
+      level: default
+    detekt:
+      enabled: true
+    ktlint:
+      enabled: true
 
 chat:
-  # Enable or disable chat
-  enabled: true
   auto_reply: true
 
-# Path-based instructions
-path_instructions:
-  - path: "src/**/*.ts"
-    instructions: "Focus on TypeScript best practices and type safety"
-  - path: "**/*.test.ts"
-    instructions: "Ensure tests are comprehensive and follow testing patterns"
-
-# Files/paths to ignore
 path_filters:
-  - "!**/*.lock"
-  - "!**/dist/**"
-  - "!**/node_modules/**"
+  excluded_paths:
+    # Gradle
+    - "**/.gradle/**"
+    - "**/build/**"
+    - "**/gradle/wrapper/**"
+    - "gradle.properties"
+    - "gradlew"
+    - "gradlew.bat"
+    # IDE
+    - "**/.idea/**"
+    - "**/*.iml"
+    # Generated code
+    - "**/generated/**"
+    - "**/build/generated/**"
+    - "**/*Generated*.kt"
+    # Dependencies
+    - "**/buildSrc/build/**"
+    # Android specific
+    - "**/app/release/**"
+    - "**/app/debug/**"
+    - "**/.cxx/**"
+    - "**/captures/**"
+    # Common
+    - "**/*.min.js"
+    - "**/*.min.css"
+    - "**/node_modules/**"
+    - "**/__snapshots__/**"
+    - "**/coverage/**"
